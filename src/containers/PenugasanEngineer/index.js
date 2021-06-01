@@ -74,7 +74,7 @@ class PenugasanEngineer extends Component {
                         deadline: pi.deadline,
                         dateClosedPI: pi.dateClosedPI
                     }
-                    await APIConfig.put(`https://propen-a01-sipel.herokuapp.com/api/v1//order/${this.state.orderTarget.idOrder}/pi/${pi.idOrderPi}/updatePIC`, dataPi);
+                    await APIConfig.put(`https://propen-a01-sipel.herokuapp.com/api/v1/order/${this.state.orderTarget.idOrder}/pi/${pi.idOrderPi}/updatePIC`, dataPi);
                 }
 
                 // Apabila order memiliki jenis managed service
@@ -89,7 +89,7 @@ class PenugasanEngineer extends Component {
                         timeRemaining: ms.timeRemaining,
                         dateClosedMS: ms.dateClosedMS
                     }
-                    await APIConfig.put(`https://propen-a01-sipel.herokuapp.com/api/v1//order/${this.state.orderTarget.idOrder}/ms/${ms.idOrderMs}/updatePIC`, dataMs);
+                    await APIConfig.put(`https://propen-a01-sipel.herokuapp.com/api/v1/order/${this.state.orderTarget.idOrder}/ms/${ms.idOrderMs}/updatePIC`, dataMs);
                     let listService = this.getListService(this.state.orderTarget);
                     
                     // Mengirim data service satu per satu
@@ -100,7 +100,7 @@ class PenugasanEngineer extends Component {
                             name: service.name,
                             idUser: this.state.servicesEngineer[i]
                         }
-                        await APIConfig.put(`https://propen-a01-sipel.herokuapp.com/api/v1//order/${this.state.orderTarget.idOrder}/ms/${ms.idOrderMs}/service/${service.idService}/updateService`, dataService);
+                        await APIConfig.put(`https://propen-a01-sipel.herokuapp.com/api/v1/order/${this.state.orderTarget.idOrder}/ms/${ms.idOrderMs}/service/${service.idService}/updateService`, dataService);
                     }
                 }
 

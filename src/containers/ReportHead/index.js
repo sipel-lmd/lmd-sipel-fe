@@ -95,7 +95,7 @@ class ReportHead extends Component {
                 isEdit: false
             });
             // put mapping to backend, along with data retrieved from current state
-            APIConfig.put(`https://propen-a01-sipel.herokuapp.com/api/v1//laporan/accept/${this.state.reportTarget.idReport}`, report);
+            APIConfig.put(`https://propen-a01-sipel.herokuapp.com/api/v1/laporan/accept/${this.state.reportTarget.idReport}`, report);
             console.log(report);
         }catch (error) {
             alert("Oops terjadi masalah pada server");
@@ -110,7 +110,7 @@ class ReportHead extends Component {
                 isChange: true,
                 isEdit: false
             });
-            APIConfig.put(`https://propen-a01-sipel.herokuapp.com/api/v1//laporan/reject/${this.state.reportTarget.idReport}`, report);
+            APIConfig.put(`https://propen-a01-sipel.herokuapp.com/api/v1/laporan/reject/${this.state.reportTarget.idReport}`, report);
         }catch (error) {
             alert("Oops terjadi masalah pada server");
             console.log(error);
