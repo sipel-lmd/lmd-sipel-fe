@@ -32,7 +32,7 @@ class Progress extends Component {
 
     async loadData() {
         try {
-            const progressList = await APIConfig.get("/order/progress");
+            const progressList = await APIConfig.get("https://propen-a01-sipel.herokuapp.com/api/v1//order/progress");
             this.setState({ progress: progressList.data,
                 }
                 );
