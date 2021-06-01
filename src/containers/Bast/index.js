@@ -53,11 +53,11 @@ class Bast extends Component {
 
     async loadData() {
         try {
-            const laporan = await APIConfig.get("/laporan");
-            const order = await APIConfig.get("/laporan/order");
-            const bast = await APIConfig.get("/laporan/bast");
-            const pi = await APIConfig.get("/laporan/pi");
-            const mn = await APIConfig.get("/laporan/mn");
+            const laporan = await APIConfig.get("https://propen-a01-sipel.herokuapp.com/api/v1//laporan");
+            const order = await APIConfig.get("https://propen-a01-sipel.herokuapp.com/api/v1//laporan/order");
+            const bast = await APIConfig.get("https://propen-a01-sipel.herokuapp.com/api/v1//laporan/bast");
+            const pi = await APIConfig.get("https://propen-a01-sipel.herokuapp.com/api/v1//laporan/pi");
+            const mn = await APIConfig.get("https://propen-a01-sipel.herokuapp.com/api/v1//laporan/mn");
             this.setState({ laporanList: laporan.data,
                 orderList: order.data,
                 bastList: bast.data,
@@ -72,8 +72,8 @@ class Bast extends Component {
 
     async handleCreatePi(){
         try {
-            const Pi = (await APIConfig.get("/laporan/bast/create/pi")).data;
-            const list = APIConfig.get("/laporan/pi").data;
+            const Pi = (await APIConfig.get("https://propen-a01-sipel.herokuapp.com/api/v1//laporan/bast/create/pi")).data;
+            const list = APIConfig.get("https://propen-a01-sipel.herokuapp.com/api/v1//laporan/pi").data;
             this.loadData()
             //console.log(Pi);
             this.setState({
@@ -92,7 +92,7 @@ class Bast extends Component {
 
     async handleCreateMn(){
         try {
-            const Mn = (await APIConfig.get("/laporan/bast/create/mn")).data;
+            const Mn = (await APIConfig.get("https://propen-a01-sipel.herokuapp.com/api/v1//laporan/bast/create/mn")).data;
             this.loadData();
             //console.log(Mn.maintenanceList);
             this.setState({
