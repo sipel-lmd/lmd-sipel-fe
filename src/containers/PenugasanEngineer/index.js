@@ -371,7 +371,7 @@ class PenugasanEngineer extends Component {
                 {/* Menampilkan daftar order */}
                 <div><h1 className="text-center">Daftar Order</h1></div>
                 <div className="d-flex justify-content-end" style={{padding: 5}}><Form.Control type="text" size="sm" placeholder="Cari..." onChange={this.handleFilter} className={classes.search}/></div>
-                <div><CustomizedTables headers={tableHeaders} rows={tableRows}/></div>
+                <div>{ ordersVerified.length !== 0 ? <CustomizedTables headers={tableHeaders} rows={tableRows}/> : <p className="text-center" style={{color: "red"}}>Belum terdapat order yang terverifikasi </p>}</div>
                 
                 {/* Menampilkan modal berisi form penugasan engineer */}
                 <Modal
