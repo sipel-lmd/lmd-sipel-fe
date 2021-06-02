@@ -4,6 +4,7 @@ import { useRoutes} from "hookrouter";
 import './App.css';
 import Layout from "./components/Layout";
 import Progress from "./containers/Progress";
+import Bast from "./containers/Bast";
 import ReportAdmin from "./containers/ReportAdmin";
 import ReportFinance from "./containers/ReportFinance";
 import ReportHead from "./containers/ReportHead";
@@ -38,6 +39,7 @@ const routes = {
   "/laporan/finance" : () => < ReportFinance/>,
   "/laporan/head" : () => < ReportHead/>,
   "/laporan/admin" : () => < ReportAdmin/>,
+  "/laporan/create-bast" : () => < Bast/>,
 };
 
 function App(){
@@ -78,6 +80,7 @@ function App(){
                 </NavDropdown>
                 <NavDropdown title="Laporan"  id="collasible-nav-dropdown">
                   <div className="d-flex justify-content-between">
+                    <Nav.Link href="/laporan/create-bast" style={{color: "black"}} className="pl-5 pr-5">Generate BAST</Nav.Link>
                     <Nav.Link href="/laporan/daftarLaporan" style={{color: "black"}} className="pl-5 pr-5">Daftar Laporan</Nav.Link>
                     <Nav.Link href="/laporan/admin" style={{color: "black"}} className="pl-5 pr-5">Laporan</Nav.Link>
                     <Nav.Link href="/laporan/finance" style={{color: "black"}} className="pl-5 pr-5">Laporan</Nav.Link>
