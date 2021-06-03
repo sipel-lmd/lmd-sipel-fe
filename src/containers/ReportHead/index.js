@@ -339,7 +339,7 @@ class ReportHead extends Component {
     }
 
     getUrl(report){
-        const BASE_URL = "http://localhost:2020/report/";
+        const BASE_URL = "https://propen-a01-sipel.herokuapp.com/report/";
         if(report.fileType === "application/pdf"){
             return BASE_URL+report.reportName+"/preview";
         }else{
