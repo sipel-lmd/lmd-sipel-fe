@@ -344,7 +344,7 @@ class LaporanInstalasiMaintenance extends Component {
     // Apabila jenis file adalah pdf, maka url preview yang digunakan
     // Apabila jenis file selain pdf, maka url download yang digunakan
     getUrl(report){
-        const BASE_URL = "http://localhost:2020/report/";
+        const BASE_URL = "https://propen-a01-sipel.herokuapp.com/report/";
         if(report.fileType === "application/pdf"){
             return BASE_URL+report.reportName+"/preview";
         }else{
