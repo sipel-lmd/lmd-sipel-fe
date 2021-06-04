@@ -113,7 +113,7 @@ class App extends Component {
           <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="mr-auto">
                 {currentUser ?
-                {<Nav.Link href="/dashboard" style={{color: "black"}} className="pl-5 pr-5">Dashboard</Nav.Link>}: <></>}
+                <Nav.Link href="/dashboard" style={{color: "black"}} className="pl-5 pr-5">Dashboard</Nav.Link>: <></>}
                 {currentUser ?
               <NavDropdown title="Order" id="collasible-nav-dropdown">
                 <div className="d-flex justify-content-between">
