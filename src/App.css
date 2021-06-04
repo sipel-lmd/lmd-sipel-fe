@@ -54,7 +54,6 @@ label {
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .App-link {
@@ -70,9 +69,9 @@ label {
   }
 }
 
-/* #collasible-nav-dropdown::after{
+#collasible-nav-dropdown::after{
   display: none !important;
-} */
+}
 
 #root{
     background-color: lightgray;
