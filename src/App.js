@@ -89,7 +89,7 @@ class App extends Component {
         showProgressOrder: user.roles.includes("ROLE_MANAGER"),
         showBast: user.roles.includes("ROLE_ADMIN", "ROLE_MANAGER"),
         showStatusPersetujuanLaporan: user.roles.includes("ROLE_MANAGER"),
-        showDashboard: user.roles.includes("ROLE_ADMIN"),
+        showDashboard: user.roles.includes("ROLE_ADMIN", "ROLE_MANAGER"),
         showChangeStatusOrder: user.roles.includes("ROLE_ADMIN"),
         showFinalisasiLaporan: user.roles.includes("ROLE_ADMIN")
       });
@@ -207,17 +207,17 @@ class App extends Component {
             <Route path = "/laporan/head" component = {ReportHead}></Route>
             <Route path = "/laporan/admin" component = {ReportAdmin}></Route>
             <Route path = "/laporan/create-bast" component = {Bast}></Route>
-            <Route exact path="/order/order" component={InputDataOrder} />
-            <Route exact path="/produksi/maintenance" component={PenjadwalanMaintenance} />
-            <Route exact path="/produksi/maintenance/create/:id" component={CreateMaintenance} />
-            <Route exact path="/produksi/maintenance/look-update/:id" component={LookUpdateMaintenance} />
-            <Route exact path="/order/create" component={CreateOrder} />
-            <Route exact path="/order/detail/:id" component={DetailOrder} />
-            <Route exact path="/orderPI/change/:id/:idPi" component={ChangeOrderPI} />
-            <Route exact path="/orderMS/change/:id/:idMs" component={ChangeOrderMS} />
-            <Route exact path="/orderPIMS/change/:id/:idPi/:idMs" component={ChangeOrderPIMS} />
-            <Route exact path="/laporan/verifikasiLaporan" component={StatusPersetujuanLaporan} />
-            <Route exact path="/order/unggah/:id" component={UnggahDokumenOrder} />
+            <Route path="/order/order" component={InputDataOrder} />
+            <Route path="/produksi/maintenance" component={PenjadwalanMaintenance} />
+            <Route path="/produksi/maintenance/create/:id" component={CreateMaintenance} />
+            <Route path="/produksi/maintenance/look-update/:id" component={LookUpdateMaintenance} />
+            <Route path="/order/create" component={CreateOrder} />
+            <Route path="/order/detail/:id" component={DetailOrder} />
+            <Route path="/orderPI/change/:id/:idPi" component={ChangeOrderPI} />
+            <Route path="/orderMS/change/:id/:idMs" component={ChangeOrderMS} />
+            <Route path="/orderPIMS/change/:id/:idPi/:idMs" component={ChangeOrderPIMS} />
+            <Route path="/laporan/verifikasiLaporan" component={StatusPersetujuanLaporan} />
+            <Route path="/order/unggah/:id" component={UnggahDokumenOrder} />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/laporan/finalisasi" component={FinalisasiLaporan} />
             <Route path="/order/ubahStatus" component={ChangeStatusOrder} />
