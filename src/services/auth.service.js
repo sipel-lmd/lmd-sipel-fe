@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:2020/api/auth/";
+const API_URL = "https://propen-a01-sipel.herokuapp.com/auth/";
 
 class AuthService {
   login(username, password) {
