@@ -137,7 +137,7 @@ class App extends Component {
               
               </div>
               </NavDropdown> : <></>}
-              //{showHalamanAdmin && (<Nav.Link href="/halaman/admin">Halaman Admin</Nav.Link>)}
+              {showHalamanAdmin && (<Nav.Link href="/halaman/admin">Halaman Admin</Nav.Link>)}
               </Nav>
 
               {currentUser ? (
