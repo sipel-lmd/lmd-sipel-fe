@@ -40,9 +40,8 @@
 #collasible-nav-dropdown::after{
   display: none !important;
 }
-
 #root{
     background-color: lightgray;
     overflow: scroll;
     min-height: 100% !important;
-}
+} 
