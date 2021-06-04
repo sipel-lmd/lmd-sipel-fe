@@ -70,9 +70,9 @@ label {
   }
 }
 
-#collasible-nav-dropdown::after{
+/* #collasible-nav-dropdown::after{
   display: none !important;
-}
+} */
 
 #root{
     background-color: lightgray;
