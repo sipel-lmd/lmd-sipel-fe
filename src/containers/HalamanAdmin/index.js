@@ -111,7 +111,6 @@ class HalamanAdmin extends Component {
 
     handleSave = (e) => {
         e.preventDefault();
-        let user = {username: this.state.userTarget.username, role_name: this.state.role_name};
         console.log('user => ' + JSON.stringify(user));
         const URL = "https://propen-a01-sipel.herokuapp.com/api/v1/user/updateRole";
         axios.put(URL, user, { headers: authHeader() });
@@ -137,7 +136,8 @@ class HalamanAdmin extends Component {
         if(this.state.role_name === ""){
             return this.setState({isFailed: true, messageError: "Role wajib dipilih"});
         }
-
+        
+        let user = {username: this.state.userTarget.username, role_name: this.state.role_name};
         this.handleSave(event);
     }
 
