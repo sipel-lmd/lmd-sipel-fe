@@ -120,7 +120,9 @@ class App extends Component {
                   {showPenjadwalanMaintenance && (<Nav.Link href="/produksi/maintenance" style={{color: "black"}} className="pl-5 pr-5">Penjadwalan Maintenance</Nav.Link>)}
                   
               </div>
+              
               </NavDropdown>
+              {currentUser ? <></> :
               <NavDropdown title="Laporan"  id="collasible-nav-dropdown">
               <div className="d-flex justify-content-between">
               {showMengelolaLaporan && (<Nav.Link href="/laporan/daftarLaporan" style={{color: "black"}} className="pl-5 pr-5">Daftar Laporan</Nav.Link>)}
@@ -129,9 +131,9 @@ class App extends Component {
               {showLaporanHead && (<Nav.Link href="/laporan/head" style={{color: "black"}} className="pl-5 pr-5">Laporan</Nav.Link>)}
               {showBast && (<Nav.Link href="/laporan/create-bast" style={{color: "black"}} className="pl-5 pr-5">Laporan</Nav.Link>)}
               {showStatusPersetujuanLaporan && (<Nav.Link href="/laporan/verifikasiLaporan" style={{color: "black"}} className="pl-5 pr-5">Verifikasi Laporan</Nav.Link>)}
-
+              
               </div>
-              </NavDropdown>
+              </NavDropdown>}
               //{showHalamanAdmin && (<Nav.Link href="/halaman/admin">Halaman Admin</Nav.Link>)}
               </Nav>
 
