@@ -5,6 +5,7 @@ import { Form, Button, Card, Table } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import classes from "./style.css";
 import jsPDF from "jspdf";
+import authHeader from '../../services/auth-header';
 
 class ReportAdmin extends Component {
     constructor(props) {
@@ -45,15 +46,15 @@ class ReportAdmin extends Component {
 
     async loadData() {
         try {
-            const orders = await APIConfig.get("/ordersVerifiedReport");
-            const order = await APIConfig.get("/laporan/order");
-            const reports = await APIConfig.get("/reports/all");
-            const listIr = await APIConfig.get("/reports/ir");
-            const listMr = await APIConfig.get("/reports/mr");
-            const listPi = await APIConfig.get("/orders/pi");
-            const listMs = await APIConfig.get("/orders/ms");
-            const listTerm = await APIConfig.get("/orders/ms/perc");
-            const bast = await APIConfig.get("/laporan/bast");
+            const orders = await APIConfig.get("/ordersVerifiedReport", { headers: authHeader() });
+            const order = await APIConfig.get("/laporan/order", { headers: authHeader() });
+            const reports = await APIConfig.get("/reports/all", { headers: authHeader() });
+            const listIr = await APIConfig.get("/reports/ir", { headers: authHeader() });
+            const listMr = await APIConfig.get("/reports/mr", { headers: authHeader() });
+            const listPi = await APIConfig.get("/orders/pi", { headers: authHeader() });
+            const listMs = await APIConfig.get("/orders/ms", { headers: authHeader() });
+            const listTerm = await APIConfig.get("/orders/ms/perc", { headers: authHeader() });
+            const bast = await APIConfig.get("/laporan/bast", { headers: authHeader() });
             this.setState({ ordersVerified: orders.data, reports: reports.data, listIr: listIr.data,
                 listMr: listMr.data, listPi: listPi.data, listMs: listMs.data, bastList: bast.data, orderList: order.data,
                 termList: listTerm.data});
@@ -288,10 +289,12 @@ class ReportAdmin extends Component {
     }
 
     getUrl(report){
+        const BASE_URL = "https://propen-a01-sipel.herokuapp.com/report/";
+		// const BASE_URL = "http://localhost:2020/report/";
         if(report.fileType === "application/pdf"){
-            return report.urlFile+"/preview";
+            return BASE_URL+report.reportName+"/preview";
         }else{
-            return report.urlFile;
+            return BASE_URL+report.reportName;
         }
     }
 

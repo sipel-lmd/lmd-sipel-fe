@@ -6,6 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import classes from "./styles.module.css";
 import moment from "moment";
+import authHeader from '../../services/auth-header';
 
 class PeriodeKontrak extends Component {
     constructor(props) {
@@ -60,10 +61,10 @@ class PeriodeKontrak extends Component {
     // Mengambil dan mengupdate data yang masuk
     async loadData() {
         try {
-            const orders = await APIConfig.get("/ordersVerified/ms");
-            const engineers = await APIConfig.get("/engineers");
-            const listPi = await APIConfig.get("/orders/pi");
-            const listMs = await APIConfig.get("/orders/ms");
+            const orders = await APIConfig.get("/ordersVerified/ms", { headers: authHeader() });
+            const engineers = await APIConfig.get("/engineers", { headers: authHeader() });
+            const listPi = await APIConfig.get("/orders/pi", { headers: authHeader() });
+            const listMs = await APIConfig.get("/orders/ms", { headers: authHeader() });
             this.setState({ ordersVerified: orders.data, engineers: engineers.data, listPi: listPi.data, listMs: listMs.data});
         } catch (error) {
             this.setState({ isError: true });
@@ -107,7 +108,7 @@ class PeriodeKontrak extends Component {
                     idOrderPi: pi,
                     idOrderMs: ms.idOrderMs
                 }
-                response = await APIConfig.put(`/order/${order.idOrder}/perpanjangKontrak`, dataOrder);
+                response = await APIConfig.put(`/order/${order.idOrder}/perpanjangKontrak`, dataOrder, { headers: authHeader() });
                 newOrder = response.data.result;
                 this.loadData();
             }
@@ -120,7 +121,7 @@ class PeriodeKontrak extends Component {
                 activated: ms.activated,
                 dateClosedMS: null
             }
-            response = await APIConfig.put(`/order/${this.state.isExtend ? newOrder.idOrder : order.idOrder}/ms/updateKontrak`, dataMs);
+            response = await APIConfig.put(`/order/${this.state.isExtend ? newOrder.idOrder : order.idOrder}/ms/updateKontrak`, dataMs, { headers: authHeader() });
             const newMsUpdated = response.data.result;
             
             // Apabila ingin perpanjang kontrak, maka mengirim data service satu per satu
@@ -133,7 +134,7 @@ class PeriodeKontrak extends Component {
                     name: listServiceName[i],
                     idUser: listService[i]
                     }
-                    response = await APIConfig.post(`/order/${newOrder.idOrder}/ms/${newMsUpdated.idOrderMs}/createService`, dataService);
+                    response = await APIConfig.post(`/ms/${newMsUpdated.idOrderMs}/createService`, dataService, { headers: authHeader() });
                     const service = response.data.result;
                     services[i] = service;
                     this.loadData();
@@ -307,11 +308,11 @@ class PeriodeKontrak extends Component {
             timeRemaining: this.getTimeRemaining(ms.actualStart, ms.actualEnd)  
         });
         
-        if(ms.idUserPic !== null){
-            let servicesEngineer = ms.listService.map(service => service.idUser.id);
+        if(ms.listService !== null){
+            let servicesEngineer = ms.listService.map(service => service.idUser === null ? null : service.idUser.id);
             let servicesEngineerName = ms.listService.map(service => service.name);
             this.setState({
-                picEngineerMs: ms.idUserPic.id, 
+                picEngineerMs: ms.idUserPic === null ? null : ms.idUserPic.id, 
                 servicesEngineer: servicesEngineer,
                 servicesEngineerName: servicesEngineerName,
                 services: ms.listService
@@ -363,7 +364,6 @@ class PeriodeKontrak extends Component {
         let pi = this.state.listPi.filter(pi => pi.idOrder.idOrder === idOrder );
 
         if (pi.length !== 0) {
-            console.log(pi[0]);
             return pi[0];
         }
         return null;
@@ -385,7 +385,6 @@ class PeriodeKontrak extends Component {
     // Mengambil nama lengkap dari engineer pada service yang dipilih
     getPICService(service){
         if(service.idUser !== null){
-            console.log(service.idUser.fullname);
             return service.idUser.fullname;
         }
         return <p style={{color: "red"}}>Belum ditugaskan</p>;
@@ -473,8 +472,8 @@ class PeriodeKontrak extends Component {
     }
 
     render() {
-        const { ordersVerified, isEdit, isExtend, orderTarget, engineers, actualStart, actualEnd, picEngineerMs, isAdded, timeRemaining, isSuccess, isFailed, isError, messageError,
-            servicesEngineer, servicesEngineerName, isReport, isReportExtend, orderFiltered, isFiltered, listService, services } = this.state;
+        const { ordersVerified, isEdit, isExtend, orderTarget, engineers, actualStart, actualEnd, picEngineerMs, timeRemaining, isSuccess, isFailed, isError, messageError,
+                isReport, isReportExtend, orderFiltered, isFiltered, services } = this.state;
         
         // Judul untuk setiap kolom di tabel daftar order
         const tableHeaders = ['No.', 'Nomor PO', 'Nama Order', 'Periode Mulai', 'Periode Berakhir', 'Waktu Tersisa', 'Aksi'];                  
@@ -522,7 +521,7 @@ class PeriodeKontrak extends Component {
                 {/* Menampilkan daftar order */}
                 <div><h1 className="text-center">Daftar Order</h1></div>
                 <div className="d-flex justify-content-end" style={{padding: 5}}><Form.Control type="text" size="sm" placeholder="Cari..." onChange={this.handleFilter} className={classes.search}/></div>
-                <div>{ ordersVerified.length !== 0 ? <CustomizedTables headers={tableHeaders} rows={tableRows}/> : <p className="text-center" style={{color: "red"}}>Belum terdapat order jenis managed services yang terverifikasi </p>}</div>
+                <div><CustomizedTables headers={tableHeaders} rows={tableRows}/></div>
                 
                 {/* Menampilkan modal berisi form mengubah periode kontrak atau perpanjang periode kontrak */}
                 <Modal
@@ -572,8 +571,9 @@ class PeriodeKontrak extends Component {
                                             {isExtend ? 
                                             <td><p className="d-flex">Services<p style={{color: "red"}}>*</p></p></td> 
                                             : <td>Services</td>}
-                                            <td>
-                                                <><CustomizedTables headers={tableServiceHeaders} rows={tableServiceRows}></CustomizedTables></>
+                                            <td className="d-flex">
+                                                : {services.length === 0 ? <p style={{color: "red"}}>Belum terdapat service</p> :
+                                                <><CustomizedTables headers={tableServiceHeaders} rows={tableServiceRows}></CustomizedTables></>}
                                             </td>
                                         </tr>
                                         <tr>
@@ -584,7 +584,7 @@ class PeriodeKontrak extends Component {
                                                     {engineers.map(user =><option value={user.id}>{user.fullname}</option>)}
                                                 </Form.Control></td></>
                                             : <><td>PIC Engineer</td>
-                                            <td>: {this.getPICMS(orderTarget.idOrder) === null? "Belum ditugaskan" : this.getPICMS(orderTarget.idOrder).fullname}</td></>}
+                                            <td className="d-flex">: {this.getPICMS(orderTarget.idOrder) === null? <p style={{color: "red"}}>Belum ditugaskan</p> : this.getPICMS(orderTarget.idOrder).fullname}</td></>}
                                         </tr>
                                         <tr>
                                             { isExtend ? <>

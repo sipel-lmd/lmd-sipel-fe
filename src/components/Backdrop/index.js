@@ -6,5 +6,4 @@ const Backdrop = (props) => {
     return show ? <div className={classes.backdrop} onClick={onClick} /> : null;
 };
 
-
 export default Backdrop;

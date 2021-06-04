@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import classes from "./style.css";
 import CustomizedButtons from "../../components/Button";
 import jsPDF from "jspdf";
+import authHeader from '../../services/auth-header';
 
 class ReportHead extends Component {
     constructor(props) {
@@ -50,15 +51,15 @@ class ReportHead extends Component {
 
     async loadData() {
         try {
-            const orders = await APIConfig.get("https://propen-a01-sipel.herokuapp.com/api/v1//ordersVerifiedReport");
-            const order = await APIConfig.get("https://propen-a01-sipel.herokuapp.com/api/v1//laporan/order");
-            const reports = await APIConfig.get("https://propen-a01-sipel.herokuapp.com/api/v1//reports/all");
-            const listIr = await APIConfig.get("https://propen-a01-sipel.herokuapp.com/api/v1//reports/ir");
-            const listMr = await APIConfig.get("https://propen-a01-sipel.herokuapp.com/api/v1//reports/mr");
-            const listPi = await APIConfig.get("https://propen-a01-sipel.herokuapp.com/api/v1//orders/pi");
-            const listMs = await APIConfig.get("https://propen-a01-sipel.herokuapp.com/api/v1//orders/ms");
-            const listTerm = await APIConfig.get("https://propen-a01-sipel.herokuapp.com/api/v1//orders/ms/perc");
-            const bast = await APIConfig.get("https://propen-a01-sipel.herokuapp.com/api/v1//laporan/bast");
+            const orders = await APIConfig.get("/ordersVerifiedReport", { headers: authHeader() });
+            const order = await APIConfig.get("/laporan/order", { headers: authHeader() });
+            const reports = await APIConfig.get("/reports/all", { headers: authHeader() });
+            const listIr = await APIConfig.get("/reports/ir", { headers: authHeader() });
+            const listMr = await APIConfig.get("/reports/mr", { headers: authHeader() });
+            const listPi = await APIConfig.get("/orders/pi", { headers: authHeader() });
+            const listMs = await APIConfig.get("/orders/ms", { headers: authHeader() });
+            const listTerm = await APIConfig.get("/orders/ms/perc", { headers: authHeader() });
+            const bast = await APIConfig.get("/laporan/bast", { headers: authHeader() });
             this.setState({ ordersVerified: orders.data, reports: reports.data, listIr: listIr.data,
                 listMr: listMr.data, listPi: listPi.data, listMs: listMs.data, bastList: bast.data, orderList: order.data,
                 termList: listTerm.data});
@@ -339,10 +340,12 @@ class ReportHead extends Component {
     }
 
     getUrl(report){
+        const BASE_URL = "https://propen-a01-sipel.herokuapp.com/report/";
+		// const BASE_URL = "http://localhost:2020/report/";
         if(report.fileType === "application/pdf"){
-            return report.urlFile+"/preview";
+            return BASE_URL+report.reportName+"/preview";
         }else{
-            return report.urlFile;
+            return BASE_URL+report.reportName;
         }
     }
 

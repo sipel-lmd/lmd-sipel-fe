@@ -5,6 +5,7 @@ import { Form, Button, Card, Table } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import classes from "./styles.module.css";
+import authHeader from '../../services/auth-header';
 
 class PenugasanEngineer extends Component {
     constructor(props) {
@@ -44,10 +45,10 @@ class PenugasanEngineer extends Component {
     // Mengambil dan mengupdate data yang masuk
     async loadData() {
         try {
-            const orders = await APIConfig.get("/ordersVerified");
-            const engineers = await APIConfig.get("/engineers");
-            const listPi = await APIConfig.get("/orders/pi");
-            const listMs = await APIConfig.get("/orders/ms");
+            const orders = await APIConfig.get("/ordersVerified", { headers: authHeader() });
+            const engineers = await APIConfig.get("/engineers", { headers: authHeader() });
+            const listPi = await APIConfig.get("/orders/pi", { headers: authHeader() });
+            const listMs = await APIConfig.get("/orders/ms", { headers: authHeader() });
             this.setState({ ordersVerified: orders.data, engineers: engineers.data, listPi: listPi.data, listMs: listMs.data});
             
         } catch (error) {
@@ -74,7 +75,7 @@ class PenugasanEngineer extends Component {
                         deadline: pi.deadline,
                         dateClosedPI: pi.dateClosedPI
                     }
-                    await APIConfig.put(`/order/${this.state.orderTarget.idOrder}/pi/${pi.idOrderPi}/updatePIC`, dataPi);
+                    await APIConfig.put(`/order/${this.state.orderTarget.idOrder}/pi/${pi.idOrderPi}/updatePIC`, dataPi, { headers: authHeader() });
                 }
 
                 // Apabila order memiliki jenis managed service
@@ -89,7 +90,7 @@ class PenugasanEngineer extends Component {
                         timeRemaining: ms.timeRemaining,
                         dateClosedMS: ms.dateClosedMS
                     }
-                    await APIConfig.put(`/order/${this.state.orderTarget.idOrder}/ms/${ms.idOrderMs}/updatePIC`, dataMs);
+                    await APIConfig.put(`/order/${this.state.orderTarget.idOrder}/ms/${ms.idOrderMs}/updatePIC`, dataMs, { headers: authHeader() });
                     let listService = this.getListService(this.state.orderTarget);
                     
                     // Mengirim data service satu per satu
@@ -100,7 +101,7 @@ class PenugasanEngineer extends Component {
                             name: service.name,
                             idUser: this.state.servicesEngineer[i]
                         }
-                        await APIConfig.put(`/order/${this.state.orderTarget.idOrder}/ms/${ms.idOrderMs}/service/${service.idService}/updateService`, dataService);
+                        await APIConfig.put(`/service/${service.idService}/updateService`, dataService, { headers: authHeader() });
                     }
                 }
 
@@ -176,7 +177,6 @@ class PenugasanEngineer extends Component {
         let pi = this.state.listPi.filter(pi => pi.idOrder.idOrder === idOrder );
 
         if (pi.length !== 0) {
-            console.log(pi[0]);
             return pi[0];
         }
         return null;
@@ -187,7 +187,6 @@ class PenugasanEngineer extends Component {
         let ms = this.state.listMs.filter(ms => ms.idOrder.idOrder === idOrder);
 
         if (ms.length !== 0) {
-            console.log(ms[0]);
             return ms[0];
         }
         return null;
@@ -242,11 +241,11 @@ class PenugasanEngineer extends Component {
         }
 
         if(order.managedService === true){
-            const picMs = this.getPICMS(order.idOrder);
-            if(picMs !== null){
-                const servicesEngineer = this.getListService(order).map(service => service.idUser.id);
+            if(this.getMs(order.idOrder).listService !== null){
+                const picMs = this.getPICMS(order.idOrder);
+                const servicesEngineer = this.getListService(order).map(service => service.idUser === null ? null : service.idUser.id);
                 this.setState({
-                    picEngineerMs: picMs.id, 
+                    picEngineerMs: picMs === null ? null : picMs.id, 
                     servicesEngineer: servicesEngineer
                 });
             }
@@ -371,7 +370,7 @@ class PenugasanEngineer extends Component {
                 {/* Menampilkan daftar order */}
                 <div><h1 className="text-center">Daftar Order</h1></div>
                 <div className="d-flex justify-content-end" style={{padding: 5}}><Form.Control type="text" size="sm" placeholder="Cari..." onChange={this.handleFilter} className={classes.search}/></div>
-                <div>{ ordersVerified.length !== 0 ? <CustomizedTables headers={tableHeaders} rows={tableRows}/> : <p className="text-center" style={{color: "red"}}>Belum terdapat order yang terverifikasi </p>}</div>
+                <div><CustomizedTables headers={tableHeaders} rows={tableRows}/></div>
                 
                 {/* Menampilkan modal berisi form penugasan engineer */}
                 <Modal
@@ -436,8 +435,9 @@ class PenugasanEngineer extends Component {
                                             {isReport ? 
                                             <td>Services</td> :
                                             <td><p className="d-flex">Services<p style={{color: "red"}}>*</p></p></td> }
-                                            <td>
-                                                <><CustomizedTables headers={tableServiceHeaders} rows={tableServiceRows}></CustomizedTables></>
+                                            <td className="d-flex">
+                                                : {this.getMs(orderTarget.idOrder).listService === null ? <p style={{color: "red"}}>Belum terdapat service</p> :
+                                                <><CustomizedTables headers={tableServiceHeaders} rows={tableServiceRows}></CustomizedTables></>}
                                             </td>
                                         </tr>
                                         <tr>
