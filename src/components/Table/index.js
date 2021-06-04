@@ -20,17 +20,8 @@ const StyledTableCell = withStyles((theme) => ({
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
-    // '&:nth-of-type(odd)': {
-    //   backgroundColor: theme.palette.action.hover,
-    // },
   },
 }))(TableRow);
-
-
-// Contoh Penulisan Array data
-// const headers = ['No.', 'Id Order', 'Nomor PO', 'Nama Order', 'Tipe', 'PIC PI', 'PIC MS', 'Aksi'];
-// const rows = [ {items : [10,  '000010/I/PO-LA/2021', 'PIMS-190621/PT.Aplikasinusa', 'Project Installation (PI), Managed Service (MS)', 'Belum ditugaskan', 'Belum ditugaskan', 'button perbarui']},
-// {items : [9,  '000010/I/PO-LA/2021', 'PIMS-190621/PT.Aplikasinusa', 'Project Installation (PI), Managed Service (MS)', 'Belum ditugaskan', 'Belum ditugaskan', 'button perbarui']}];
 
 const useStyles = makeStyles({
   table: {
@@ -40,24 +31,7 @@ const useStyles = makeStyles({
 
 export default function CustomizedTables(props) {
   const classes = useStyles();
-  const { headers, rows } = props;
-
-  // const tablerows = rows.forEach((row, index) => {
-  //   return(
-  //     <StyledTableRow key={index}>
-  //       <StyledTableCell align="center" component="th" scope="row">{index+1}</StyledTableCell>
-  //         {row.map((cell) => (
-  //           cell.map((data, index) => (<StyledTableCell align="left" key={index}>{data}</StyledTableCell>))
-  //         ))} 
-  //   </StyledTableRow>
-  //   )
-  // });
-
-  // rows.forEach(row => 
-  //   row.map(cell => 
-  //     cell.map( data => console.log(data))
-  //   )
-  // );
+  const { headers, rows } = props
 
   return (
     <TableContainer component={Paper}>

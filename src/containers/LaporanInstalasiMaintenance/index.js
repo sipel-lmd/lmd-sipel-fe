@@ -5,6 +5,7 @@ import { Form, Button, Card, Table } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import classes from "./styles.module.css";
+import authHeader from '../../services/auth-header';
 
 class LaporanInstalasiMaintenance extends Component {
     constructor(props) {
@@ -57,12 +58,12 @@ class LaporanInstalasiMaintenance extends Component {
     // Mengambil dan mengupdate data yang masuk
     async loadData() {
         try {
-            const orders = await APIConfig.get("/ordersVerifiedReport");
-            const reports = await APIConfig.get("/reportsIrMr");
-            const listIr = await APIConfig.get("/reports/ir");
-            const listMr = await APIConfig.get("/reports/mr");
-            const listPi = await APIConfig.get("/orders/pi");
-            const listMs = await APIConfig.get("/orders/ms");
+            const orders = await APIConfig.get("/ordersVerifiedReport", { headers: authHeader() });
+            const reports = await APIConfig.get("/reportsIrMr", { headers: authHeader() });
+            const listIr = await APIConfig.get("/reports/ir", { headers: authHeader() });
+            const listMr = await APIConfig.get("/reports/mr", { headers: authHeader() });
+            const listPi = await APIConfig.get("/orders/pi", { headers: authHeader() });
+            const listMs = await APIConfig.get("/orders/ms", { headers: authHeader() });
             this.setState({ ordersVerified: orders.data, reports: reports.data, listIr: listIr.data, 
                             listMr: listMr.data, listPi: listPi.data, listMs: listMs.data});
         } catch (error) {
@@ -84,8 +85,7 @@ class LaporanInstalasiMaintenance extends Component {
             dataReport.append("signed", false)
             dataReport.append("reportType", this.state.isInstallationReport ? "installation" : "maintenance");
             dataReport.append("file", this.state.file);
-            console.log(dataReport);
-            response = await APIConfig.post(`/report/upload`, dataReport);
+            response = await APIConfig.post(`/report/upload`, dataReport, { headers: authHeader() });
             newReport = response.data.result;
 
             // Apabila report berjenis installation, maka masuk ke if
@@ -97,7 +97,7 @@ class LaporanInstalasiMaintenance extends Component {
                     notes: this.state.notes,
                     idOrderPi: this.getPi(parseInt(this.state.orderByPO, 10)).idOrderPi
                 }
-                await APIConfig.post(`/report/${newReport.idReport}/installation/upload`, dataInstallationReport);
+                await APIConfig.post(`/report/${newReport.idReport}/installation/upload`, dataInstallationReport, { headers: authHeader() });
             }else{
                 const dataMaintenanceReport = {
                     idMaintenanceReport: null,
@@ -105,8 +105,7 @@ class LaporanInstalasiMaintenance extends Component {
                     notes: this.state.notes,
                     idMaintenance: parseInt(this.state.maintenanceTarget, 10)
                 }
-                console.log(dataMaintenanceReport);
-                await APIConfig.post(`/report/${newReport.idReport}/maintenance/upload`, dataMaintenanceReport);
+                await APIConfig.post(`/report/${newReport.idReport}/maintenance/upload`, dataMaintenanceReport, { headers: authHeader() });
             }
             
             this.setState({reportTarget: newReport});
@@ -115,7 +114,6 @@ class LaporanInstalasiMaintenance extends Component {
             console.log(error);
             return this.setState({isUpload: false, isMrUploaded:false, isInstallationReport: false, isError: true, messageError: "Oops terjadi masalah pada server"});
         }
-
         this.setState({isSuccess: true, isUpload: false, isMrUploaded:false, isInstallationReport: false});
         this.loadData();
     }
@@ -157,7 +155,7 @@ class LaporanInstalasiMaintenance extends Component {
     async handleDelete(event){
         event.preventDefault();
         try{
-            await APIConfig.delete(`/report/${this.state.reportTarget.idReport}/delete`);
+            await APIConfig.delete(`/report/${this.state.reportTarget.idReport}/delete`, { headers: authHeader() });
         }catch (error){
             console.log(error);
             return this.setState({isFailed: true, messageError: "Laporan gagal dihapus"});
@@ -230,7 +228,6 @@ class LaporanInstalasiMaintenance extends Component {
         let ms = this.state.listMs.filter(ms => ms.idOrder.idOrder === idOrder);
 
         if (ms.length !== 0) {
-            console.log(ms[0]);
             return ms[0];
         }
         return null;
@@ -345,6 +342,7 @@ class LaporanInstalasiMaintenance extends Component {
     // Apabila jenis file selain pdf, maka url download yang digunakan
     getUrl(report){
         const BASE_URL = "https://propen-a01-sipel.herokuapp.com/report/";
+		// const BASE_URL = "http://localhost:2020/report/";
         if(report.fileType === "application/pdf"){
             return BASE_URL+report.reportName+"/preview";
         }else{

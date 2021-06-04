@@ -6,6 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import classes from "./style.css";
 import jsPDF from "jspdf";
+import authHeader from '../../services/auth-header';
 
 class ReportFinance extends Component {
     constructor(props) {
@@ -46,15 +47,15 @@ class ReportFinance extends Component {
 
     async loadData() {
         try {
-            const orders = await APIConfig.get("/ordersVerifiedReport");
-            const order = await APIConfig.get("/laporan/order");
-            const reports = await APIConfig.get("/reports");
-            const listIr = await APIConfig.get("/reports/ir");
-            const listMr = await APIConfig.get("/reports/mr");
-            const listPi = await APIConfig.get("/orders/pi");
-            const listMs = await APIConfig.get("/orders/ms");
-            const listTerm = await APIConfig.get("/orders/ms/perc");
-            const bast = await APIConfig.get("/laporan/bast");
+            const orders = await APIConfig.get("/ordersVerifiedReport", { headers: authHeader() });
+            const order = await APIConfig.get("/laporan/order", { headers: authHeader() });
+            const reports = await APIConfig.get("/reports", { headers: authHeader() });
+            const listIr = await APIConfig.get("/reports/ir", { headers: authHeader() });
+            const listMr = await APIConfig.get("/reports/mr", { headers: authHeader() });
+            const listPi = await APIConfig.get("/orders/pi", { headers: authHeader() });
+            const listMs = await APIConfig.get("/orders/ms", { headers: authHeader() });
+            const listTerm = await APIConfig.get("/orders/ms/perc", { headers: authHeader() });
+            const bast = await APIConfig.get("/laporan/bast", { headers: authHeader() });
             this.setState({ ordersVerified: orders.data, reports: reports.data, listIr: listIr.data,
                 listMr: listMr.data, listPi: listPi.data, listMs: listMs.data, bastList: bast.data, orderList: order.data,
             termList: listTerm.data});
@@ -76,7 +77,6 @@ class ReportFinance extends Component {
             reportTarget:laporan,
             isPreview: true
         });
-        //alert(this.state.laporanTarget.report)
     }
 
     getOrder(report){
@@ -286,6 +286,7 @@ class ReportFinance extends Component {
 
     getUrl(report){
         const BASE_URL = "https://propen-a01-sipel.herokuapp.com/report/";
+		// const BASE_URL = "http://localhost:2020/report/";
         if(report.fileType === "application/pdf"){
             return BASE_URL+report.reportName+"/preview";
         }else{
@@ -585,6 +586,7 @@ class ReportFinance extends Component {
             doc.text('©Hak Cipta PT. LINTAS MEDIA DANAWA, Indonesia', startX+5, footerY-10)
             doc.text('Form Berita Acara Serah Terima (FBAST)', startX+5, footerY-7)
         }
+        
         doc.save(bastNum+ '.pdf');
     }
 
