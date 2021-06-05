@@ -90,11 +90,7 @@ class App extends Component {
         showProgressOrder: user.roles.includes("ROLE_MANAGER"),
         showBast: user.roles.includes("ROLE_ADMIN", "ROLE_MANAGER"),
         showStatusPersetujuanLaporan: user.roles.includes("ROLE_MANAGER"),
-<<<<<<< HEAD
         // showDashboard: user.roles.includes("ROLE_ADMIN", "ROLE_MANAGER"),
-=======
-        showDashboard: user.roles.includes("ROLE_ADMIN", "ROLE_MANAGER"),
->>>>>>> a42e931c41643a6082cfa6671031463537662d6c
         showChangeStatusOrder: user.roles.includes("ROLE_ADMIN"),
         showFinalisasiLaporan: user.roles.includes("ROLE_ADMIN")
       });
@@ -107,13 +103,8 @@ class App extends Component {
   }
 
   render() {
-<<<<<<< HEAD
     const { currentUser, showPenjadwalanMaintenance, showPeriodeKontrak, showOrderVerification, showPenugasanEngineer, showMengelolaLaporan, showHalamanAdmin, showDeliveryProgress, 
     showLaporanAdmin, showLaporanFinance, showLaporanHead, showBast, showProgressOrder, showStatusPersetujuanLaporan, showInputDataOrderAdmin, showInputDataOrderDataEntry, showFinalisasiLaporan,  showChangeStatusOrder} = this.state;
-=======
-    const { currentUser, showPenjadwalanMaintenance, showPeriodeKontrak, showOrderVerification, showPenugasanEngineer, showMengelolaLaporan, showBoardAdmin, showHalamanAdmin, showDeliveryProgress, 
-    showLaporanAdmin, showLaporanFinance, showLaporanHead, showBast, showProgressOrder, showStatusPersetujuanLaporan, showInputDataOrder, showFinalisasiLaporan, showDashboard, showChangeStatusOrder} = this.state;
->>>>>>> a42e931c41643a6082cfa6671031463537662d6c
 
     return (
       <div>
@@ -123,13 +114,8 @@ class App extends Component {
           <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="mr-auto">
                 {currentUser ?
-<<<<<<< HEAD
                 <Nav.Link href="/dashboard" variant="dark" >Dashboard</Nav.Link>: <></>}
                 {currentUser && (showInputDataOrderAdmin || showInputDataOrderDataEntry || showOrderVerification || showProgressOrder || showChangeStatusOrder)?
-=======
-                <Nav.Link href="/dashboard" style={{color: "black"}} className="pl-5 pr-5">Dashboard</Nav.Link>: <></>}
-                {currentUser ?
->>>>>>> a42e931c41643a6082cfa6671031463537662d6c
               <NavDropdown title="Order" id="collasible-nav-dropdown">
                 <div className="d-flex justify-content-between">
                   {(showInputDataOrderAdmin || showInputDataOrderDataEntry) && (<Nav.Link href="/order/order" style={{color: "black"}} className="pl-5 pr-5">Input Data Order</Nav.Link>)}
@@ -199,7 +185,6 @@ class App extends Component {
 </Navbar>
 
         <div className="container mt-3">
-<<<<<<< HEAD
           <Router>
             <Switch>
               <Route exact path={["/"]} component={Home} />
@@ -241,47 +226,6 @@ class App extends Component {
               <Route component={PageNotFound}/>
             </Switch>
           </Router>
-=======
-          <Switch>
-            <Route exact path={["/"]} component={Home} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/profile" component={Profile} />
-            <Route path="/produksi/penugasan" component={PenugasanEngineer} />
-            <Route path="/produksi/periode-kontrak" component={PeriodeKontrak} />
-            <Route path="/laporan/daftarLaporan" component={LaporanInstalasiMaintenance} />
-			      <Route path="/api/test/admin" component={BoardAdmin} />
-            <Route path="/halaman/admin" component={HalamanAdmin} />
-            <Route path = "/delivery-progress" component = {ListVerifiedPiOrder}></Route>
-            <Route path = "/list-task/:id" component = {ListTaskComponent}></Route>
-            <Route path = "/add-task/:id" component = {CreateTaskComponent}></Route>
-            <Route path = "/update-task/:idPi/:idTask" component = {UpdateTaskComponent}></Route>
-            <Route path = "/add-progress/:idPi/:idTask" component = {UpdateTaskProgressComponent}></Route>
-            <Route path = "/order-details/:idOrder" component = {OrderDetails}></Route>
-            <Route path = "/order-verification" component = {ListNotVerifiedOrder}></Route>
-            <Route path = "/verification/:idOrder" component = {OrderVerificationComponent}></Route>
-            <Route path = "/order/progress" component = {Progress}></Route>
-            <Route path = "/laporan/finance" component = {ReportFinance}></Route>
-            <Route path = "/laporan/head" component = {ReportHead}></Route>
-            <Route path = "/laporan/admin" component = {ReportAdmin}></Route>
-            <Route path = "/laporan/create-bast" component = {Bast}></Route>
-            <Route path="/order/order" component={InputDataOrder} />
-            <Route path="/produksi/maintenance" component={PenjadwalanMaintenance} />
-            <Route path="/produksi/maintenance/create/:id" component={CreateMaintenance} />
-            <Route path="/produksi/maintenance/look-update/:id" component={LookUpdateMaintenance} />
-            <Route path="/order/create" component={CreateOrder} />
-            <Route path="/order/detail/:id" component={DetailOrder} />
-            <Route path="/orderPI/change/:id/:idPi" component={ChangeOrderPI} />
-            <Route path="/orderMS/change/:id/:idMs" component={ChangeOrderMS} />
-            <Route path="/orderPIMS/change/:id/:idPi/:idMs" component={ChangeOrderPIMS} />
-            <Route path="/laporan/verifikasiLaporan" component={StatusPersetujuanLaporan} />
-            <Route path="/order/unggah/:id" component={UnggahDokumenOrder} />
-            <Route path="/dashboard" component={Dashboard} />
-            <Route path="/laporan/finalisasi" component={FinalisasiLaporan} />
-            <Route path="/order/ubahStatus" component={ChangeStatusOrder} />
-            <Route component={PageNotFound}/>
-          </Switch>
->>>>>>> a42e931c41643a6082cfa6671031463537662d6c
         </div>
       </div>
     );
