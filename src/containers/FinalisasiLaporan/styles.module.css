@@ -106,10 +106,7 @@
     background-color: #F7873F !important;
     outline-color:  #F7873F !important;
     border-color:  #F7873F !important;
-    color: white !important;
-    height: min-content !important;
-    margin: 0% !important;
-    padding: 0% !important;
+    color: white;
 }
 
 .closeButton{
@@ -136,7 +133,7 @@
 }
 
 .container{
-    /* padding: 2%; */
+    padding: 2%;
     background-color: white;
 }
 
