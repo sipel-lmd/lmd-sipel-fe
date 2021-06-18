@@ -96,7 +96,7 @@ class ReportHead extends Component {
                 isEdit: false
             });
             // put mapping to backend, along with data retrieved from current state
-            APIConfig.put(`/laporan/accept/${this.state.reportTarget.idReport}`, report);
+            APIConfig.put(`/laporan/accept/${this.state.reportTarget.idReport}`, report, { headers: authHeader() });
             console.log(report);
         }catch (error) {
             alert("Oops terjadi masalah pada server");
@@ -111,7 +111,7 @@ class ReportHead extends Component {
                 isChange: true,
                 isEdit: false
             });
-            APIConfig.put(`/laporan/reject/${this.state.reportTarget.idReport}`, report);
+            APIConfig.put(`/laporan/reject/${this.state.reportTarget.idReport}`, report, { headers: authHeader() });
         }catch (error) {
             alert("Oops terjadi masalah pada server");
             console.log(error);
@@ -340,8 +340,8 @@ class ReportHead extends Component {
     }
 
     getUrl(report){
-        const BASE_URL = "https://propen-a01-sipel.herokuapp.com/report/";
-		// const BASE_URL = "http://localhost:2020/report/";
+        // const BASE_URL = "https://propen-a01-sipel.herokuapp.com/report/";
+		const BASE_URL = "http://localhost:2020/report/";
         if(report.fileType === "application/pdf"){
             return BASE_URL+report.reportName+"/preview";
         }else{
@@ -350,7 +350,9 @@ class ReportHead extends Component {
     }
 
     getToDownload(report){
-        return report.urlFile;
+        const BASE_URL = "https://propen-a01-sipel.herokuapp.com/report/";
+        // const BASE_URL = "http://localhost:2020/report/";
+        return BASE_URL+report.reportName;
     }
 
     getNotes(report){
@@ -712,17 +714,17 @@ class ReportHead extends Component {
                         report.reportName, this.getOrderPO(report), this.getOrderOrg(report),
                         this.getDate(report.uploadedDate), this.getApproval(report),
                         [this.getApproval(report).toLowerCase() === "approved" ?
-                            <Button className={classes.button5} onClick={() => this.handleEdit(report)}>Ubah Status</Button>
+                            <Button className={classes.button2} onClick={() => this.handleEdit(report)}>Ubah Status</Button>
                             :
-                            <Button className={classes.button5} onClick={() => this.handleEdit(report)} hidden={true}></Button>,
+                            <Button className={classes.button2} onClick={() => this.handleEdit(report)} hidden={true}></Button>,
                             this.getIsBast(report) === true ?
                                 <Button className={classes.button4} onClick={() => this.handlePreview(report)}>Preview</Button>
                                 :
                                 <Button className={classes.button4} href={this.getUrl(report)} target = "_blank">Preview</Button>,
                             this.getIsBast(report) === true ?
-                                <Button className={classes.button4} onClick={() => this.handleDownload(report)}>Unduh</Button>
+                                <Button className={classes.button5} onClick={() => this.handleDownload(report)}>Unduh</Button>
                                 :
-                                <Button className={classes.button4} href={this.getToDownload(report)} target = "_blank">Unduh</Button>
+                                <Button className={classes.button5} href={this.getToDownload(report)} target = "_blank">Unduh</Button>
                         ]]
                 )
                 : reports.map((report) =>
@@ -730,17 +732,17 @@ class ReportHead extends Component {
                         report.reportName, this.getOrderPO(report), this.getOrderOrg(report),
                         this.getDate(report.uploadedDate), this.getApproval(report),
                         [this.getApproval(report).toLowerCase() === "approved" ?
-                            <Button className={classes.button4} onClick={() => this.handleEdit(report)} hidden={true}></Button>
+                            <Button className={classes.button2} onClick={() => this.handleEdit(report)} hidden={true}></Button>
                             :
-                            <Button className={classes.button4} onClick={() => this.handleEdit(report)}>Ubah Status</Button>,
+                            <Button className={classes.button2} onClick={() => this.handleEdit(report)}>Ubah Status</Button>,
                         this.getIsBast(report) === true ?
                             <Button className={classes.button4} onClick={() => this.handlePreview(report)}>Preview</Button>
                             :
                             <Button className={classes.button4} href={this.getUrl(report)} target = "_blank">Preview</Button>,
                         this.getIsBast(report) === true ?
-                            <Button className={classes.button4} onClick={() => this.handleDownload(report)}>Unduh</Button>
+                            <Button className={classes.button5} onClick={() => this.handleDownload(report)}>Unduh</Button>
                             :
-                            <Button className={classes.button4} href={this.getToDownload(report)} target = "_blank">Unduh</Button>
+                            <Button className={classes.button5} href={this.getToDownload(report)} target = "_blank">Unduh</Button>
                     ]]
                 );
         }

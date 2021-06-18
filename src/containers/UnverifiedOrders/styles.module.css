@@ -1,3 +1,6 @@
+.search{
+    width: 20%;
+}
 
 .button1{
     background-color: #FD693E !important;
@@ -80,6 +83,10 @@
     border-color:  #DA552F!important;
 }
 
+.button5:focus{
+    box-shadow: none !important;
+}
+
 .buttonUpload{
     width: 50% !important;
 }
@@ -96,7 +103,7 @@
 } */
 
 .card{
-    background-color: #ffffff !important;
+    background-color: #F7873F !important;
     outline-color:  #F7873F !important;
     border-color:  #F7873F !important;
     color: white;
@@ -132,17 +139,4 @@
 
 .notes{
     height: 200% !important;
-}
-.content{
-    width: 85%;
-    max-width: 85%;
-}
-.gap{
-    alignment: right;
-    align-content: flex-end;
-    margin-left: 55%;
-    margin-right: 5%;
-}
-.x{
-    margin: 20px;
 }
