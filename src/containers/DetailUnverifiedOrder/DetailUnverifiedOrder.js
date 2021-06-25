@@ -220,6 +220,7 @@ class DetailUnverifiedOrder extends React.Component {
     }
 
     getUrl(document){
+
         const BASE_URL = "https://propen-a01-sipel.herokuapp.com/order/document/";
 		// const BASE_URL = "http://localhost:2020/order/document/";
         if(document.fileType === "application/pdf"){
