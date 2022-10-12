@@ -340,7 +340,7 @@ class ReportHead extends Component {
     }
 
     getUrl(report){
-        // const BASE_URL = "https://propen-a01-sipel.herokuapp.com/report/";
+        // const BASE_URL = "https://sipel-lmd-be.herokuapp.com/report/";
 		const BASE_URL = "http://localhost:2020/report/";
         if(report.fileType === "application/pdf"){
             return BASE_URL+report.reportName+"/preview";
@@ -350,7 +350,7 @@ class ReportHead extends Component {
     }
 
     getToDownload(report){
-        const BASE_URL = "https://propen-a01-sipel.herokuapp.com/report/";
+        const BASE_URL = "https://sipel-lmd-be.herokuapp.com/report/";
         // const BASE_URL = "http://localhost:2020/report/";
         return BASE_URL+report.reportName;
     }
